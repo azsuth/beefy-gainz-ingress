@@ -17,3 +17,40 @@ spec:
             backend:
               serviceName: gateway-service
               servicePort: 3001
+
+---
+
+apiVersion: certmanager.k8s.io/v1alpha1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-prod
+spec:
+  acme:
+    server: https://acme-v02.api.letsencrypt.org/directory
+    email: 'azsuth@gmail.com'
+    privateKeySecretRef:
+      name: letsencrypt-prod
+    http01: {}
+
+---
+
+apiVersion: certmanager.k8s.io/v1alpha1
+kind: Certificate
+metadata:
+  name: beefygainz-io-tls
+spec:
+  secretName: beefygainz-io
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+  commonName: beefygainz.io
+  dnsNames:
+    - beefygainz.io
+    - www.beefygainz.io
+  acme:
+    config:
+      - http01:
+          ingressClass: nginx
+        domains:
+          - beefygainz.io
+          - www.beefygainz.io

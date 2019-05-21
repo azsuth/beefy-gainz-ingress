@@ -13,7 +13,6 @@ before_install:
   - gcloud config set project beefy-gainz-1555366059329
   - gcloud config set compute/zone us-central1-a
   - gcloud container clusters get-credentials beefy-gainz-cluster-1
-  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
 
 script:
   - echo "No script steps, skipping"
